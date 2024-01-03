@@ -1,0 +1,20 @@
+version: '3.1'
+services:
+  odoo:
+    image: odoo:14.0
+    ports:
+      - "1876:8069"
+    command: ["--log-level=debug"]
+    container_name: "bpp"
+    restart: "unless-stopped"
+    volumes:
+      - ./conf:/etc/odoo
+      - ./addons:/mnt/extra-addons
+    
+    networks:
+      - dockernet
+
+networks:
+  dockernet:
+    name: dockernet
+    external: true
