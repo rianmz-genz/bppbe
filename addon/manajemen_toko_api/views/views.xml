@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+    <menuitem name="Manajement Toko" id="manajemen_toko_api.menu_root"/>
+            <menuitem
+            id="payment_menu"
+            name="Payment"
+            action="manajemen_toko_api.payment_action"
+            parent="manajemen_toko_api.menu_root"
+            sequence="1" />
+    <menuitem
+            id="merchant_menu"
+            name="Merchant"
+            action="base.action_res_users"
+            parent="manajemen_toko_api.menu_root"
+            sequence="2" />
+  </data>
+</odoo>

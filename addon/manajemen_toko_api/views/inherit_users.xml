@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="res_users_inherit_view_tree" model="ir.ui.view">
+    <field name="name">res.users.view.tree.inherit</field>
+    <field name="model">res.users</field>
+    <!-- <field name="priority" eval="15"/> -->
+    <field name="inherit_id" ref="base.view_users_tree" />
+    <field name="arch" type="xml">
+     <xpath expr="//field[@name='name']" position="after">
+              <field name="is_active"></field>
+        </xpath>
+          <xpath expr="//field[@name='lang']" position="replace">
+              <field name="address"></field>
+        </xpath>
+        <xpath expr="//field[@name='login_date']" position="replace">
+              <field name="phone"></field>
+        </xpath>
+    </field>
+  </record>
+
+</odoo>

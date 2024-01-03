@@ -1,0 +1,69 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="payment_list">
+      <field name="name">payment.list</field>
+      <field name="model">new.payment</field>
+      <field name="arch" type="xml">
+        <tree>
+              <field name="image" widget="image" class="oe_avatar" options="{'zoom': true, 'size': [100, 100]}"/>
+              <field name="user_id"></field>
+              <field name="summary" />
+              <field name="state" /> 
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+
+    <record id="payment_view_form" model="ir.ui.view">
+      <field name="name">payment.form</field>
+      <field name="model">new.payment</field>
+      <field name="arch" type="xml">
+        <form string="Payment">
+          <header>
+              <button name="accept" states='diajukan' string="Terima" type="object"
+							class="oe_highlight" />
+              <button name="decline" states='diajukan' string="Tolak" type="object"
+                class="oe_highlight" />
+          </header>
+          <sheet>
+            <group>
+              <field name="image" widget="image" class="oe_avatar" options="{'zoom': true, 'size': [200, 200]}"/>
+              <field name="user_id"></field>
+              <field name="summary" />
+              <field name="state" /> 
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="payment_action">
+      <field name="name">Payment Registration</field>
+      <field name="res_model">new.payment</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="easykop.action_server">
+      <field name="name">easykop server</field>
+      <field name="model_id" ref="model_easykop_easykop"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+  </data>
+</odoo>
