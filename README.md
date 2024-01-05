@@ -1,0 +1,1 @@
+Untuk menggunakan projek ini anda harus clone repo terlebih dahulu
