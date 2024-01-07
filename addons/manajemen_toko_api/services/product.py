@@ -71,27 +71,31 @@ class ProductService(models.Model):
     def update(self, product_id, kw):
         Product = request.env['new.product'].sudo()
         product = Product.browse(product_id)
-        
         try:
             # Perbarui data produk yang ada
             if kw['name']:
                 product.write({'name': kw['name']})
             if kw['price']:
                 product.write({'price': kw['price']})
-            if kw['image']:
+            if type(kw['image']) is not str:
                 image_binary = base64.b64encode(kw['image'].read())
+                image_base64 = image_binary.decode('utf-8') if image_binary else None
                 product.write({'image': image_binary})
+                return {
+                    'id': product.id,
+                    'name': product.name,
+                    'price': product.price,
+                    'image': image_base64
+                }
 
         except Exception as e:
             raise exceptions.AccessError(message=e)
         
-        image_base64 = image_binary.decode('utf-8') if image_binary else None
 
         return {
             'id': product.id,
             'name': product.name,
             'price': product.price,
-            'image': image_base64
         }
         
     @api.model
