@@ -9,7 +9,7 @@ services:
     restart: "unless-stopped"
     volumes:
       - ./conf:/etc/odoo
-      - ./addon:/mnt/extra-addons
+      - ./addons:/mnt/extra-addons
     
     networks:
       - dockernet
