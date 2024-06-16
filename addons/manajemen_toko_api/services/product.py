@@ -2,6 +2,8 @@ from odoo import api, models
 from odoo import http, _, exceptions
 from odoo.http import request
 import base64
+import logging
+logg = logging.getLogger(__name__)
 class ProductService(models.Model):
     _name = 'service.product'
     _description = 'Product Service'
@@ -43,6 +45,7 @@ class ProductService(models.Model):
     def create(self, kw):
         Product = request.env['new.product'].sudo()
         uid = self.getUid(kw)
+        logg.info(f"kwwwww, {kw}")
         try:
             image_binary = base64.b64encode(kw['image'].read()) if kw.get('image') else False
 

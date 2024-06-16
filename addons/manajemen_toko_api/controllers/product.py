@@ -3,6 +3,9 @@ from odoo.http import request
 import json
 from datetime import datetime
 
+import logging
+logg = logging.getLogger(__name__)
+
 class ProductController(http.Controller):
     def __init__(self):
         super(ProductController, self).__init__()
@@ -25,16 +28,17 @@ class ProductController(http.Controller):
     
     @http.route('/api/products/create', auth='public', methods=["POST"], csrf=False, cors="*")
     def buat(self, **kw):
-       kolom_dibutuhkan = ['name', 'price', 'image', 'uid']
-       try:
-           self.helper.validasi_kolom(kw, kolom_dibutuhkan)
-       except exceptions.ValidationError as e:
-           return self.helper.res_json([], False, f'Err {e}')
-       try:
-           res = self.product_service.create(kw)
-       except Exception as e:
-           return self.helper.res_json([], False, f'Err {e}')
-       return self.helper.res_json(res, True, 'Berhasil edit product')
+        logg.info(f"kwwwww {kw}")
+        kolom_dibutuhkan = ['name', 'price', 'image', 'uid']
+        try:
+            self.helper.validasi_kolom(kw, kolom_dibutuhkan)
+        except exceptions.ValidationError as e:
+            return self.helper.res_json([], False, f'Err {e}')
+        try:
+            res = self.product_service.create(kw)
+        except Exception as e:
+            return self.helper.res_json([], False, f'Err {e}')
+        return self.helper.res_json(res, True, 'Berhasil edit product')
     
     @http.route('/api/products/update/<int:id>', auth='public', methods=["POST"], csrf=False, cors="*")
     def update(self, id,**kw):

@@ -45,6 +45,11 @@ class AuthService(models.Model):
         image_binary = base64.b64encode(image_1920.read()) if image_1920 else False
         # Buat data baru untuk user
         User = request.env['res.users'].sudo()
+        exists = User.search([
+            ('email', '=', email)
+        ])
+        if exists:
+            raise exceptions.AccessDenied("Email sudah digunakan")
         user = User.create({
             'name': name,
             'login': email,

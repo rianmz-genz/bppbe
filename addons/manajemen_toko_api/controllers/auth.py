@@ -33,6 +33,8 @@ class AuthController(http.Controller):
             res = self.auth_service.processRegister(kw)
         except exceptions.AccessDenied as e:
             return self.helper.res_json([], False, f'{e}')
+        except Exception as ex:
+            return self.helper.res_json([], False, f'{ex}')
         return self.helper.res_json(res, True, 'Berhasil Mendaftar')
 
     @http.route('/api/upload-payment', auth='public', methods=["POST"], csrf=False, cors="*", website=False)
