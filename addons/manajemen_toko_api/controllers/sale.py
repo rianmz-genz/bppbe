@@ -9,6 +9,19 @@ class SaleApiController(http.Controller):
         self.helper = request.env['service.helper']
         self.sale_service = request.env['service.sale']
         
+    
+    @http.route('/api/sale/pdf/<int:sale_id>', auth='public', methods=['GET'], csrf=False, cors="*")
+    def get_sale_pdf(self, sale_id, **kw):
+        try:
+            pdf_content = self.sale_service.get_pdf(sale_id)
+        except Exception as e:
+            return self.helper.res_json({}, False, f'Err {e}')
+
+        # Return the PDF file as a response
+        return request.make_response(pdf_content, 
+                                     headers=[('Content-Type', 'application/pdf'), 
+                                              ('Content-Disposition', f'attachment; filename=sale_{sale_id}.pdf')])
+    
     @http.route('/api/sale/<int:sale_id>', auth='public', methods=['POST'], csrf=False, cors="*")
     def get_sale(self, sale_id, **kw):
         try:

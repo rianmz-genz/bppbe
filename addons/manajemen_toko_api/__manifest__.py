@@ -25,9 +25,11 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'views/sale_report.xml',  # Include the report definition file here
         'views/templates.xml',
         'views/inherit_users.xml',
         'views/views.xml',
+
     ],
     # only loaded in demonstration mode
     'demo': [

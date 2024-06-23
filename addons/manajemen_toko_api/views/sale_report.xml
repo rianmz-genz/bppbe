@@ -1,0 +1,67 @@
+<odoo>
+    <data>
+        <!-- Report Action -->
+        <report
+            id="action_report_sale"
+            model="new.sale"
+            string="Sale Order"
+            report_type="qweb-pdf"
+            name="manajemen_toko_api.report_sale_order"
+            file="manajemen_toko_api.report_sale_order"
+            print_report_name="'Sale Order - %s' % (object.id)"
+        />
+
+        <!-- Report Template -->
+        <template id="report_sale_order">
+            <t t-call="web.html_container">
+                <!-- Include Bootstrap CSS -->
+                <t t-set="bootstrap_css" t-value="'https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css'" />
+                <link t-att-href="bootstrap_css" rel="stylesheet" />
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <table style="width: 100%; margin-bottom: 20px;">
+                            <tr>
+                                <td style="width: 250px; vertical-align: top;">
+                                    <t t-if="doc.user_id.image_1920">
+                                        <img
+                                            t-att-src="'data:image/png;base64,' + doc.user_id.image_1920.decode('utf-8')"
+                                            style="width: 250px; height: 250px; object-fit: cover;" />
+                                    </t>
+                                </td>
+                                <td style="vertical-align: top; padding-left: 10px;">
+                                    <h1><span t-esc="doc.user_id.name" /></h1>
+                                    <p><span t-esc="doc.user_id.address" /></p>
+                                    <p><span t-esc="doc.user_id.email" /></p>
+                                    <p><span t-esc="doc.user_id.phone" /></p>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr/>
+                        <p><strong>Order ID:</strong> <span t-esc="doc.id" /></p>
+                        <p><strong>Date:</strong> <span t-esc="doc.date" /></p>
+                        <p><strong>Total:</strong> <span t-esc="doc.total" /></p>
+                        <hr/>
+                        <table class="table table-bordered w-100">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.line_ids" t-as="line">
+                                    <tr>
+                                        <td><span t-esc="line.product_id.name" /></td>
+                                        <td><span t-esc="line.qty" /></td>
+                                        <td><span t-esc="line.total" /></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

@@ -1,10 +1,12 @@
 from odoo import api, models
 from odoo import http, _, exceptions
+from odoo.exceptions import UserError
 from odoo.http import request
 import json
 class SaleService(models.Model):
     _name = 'service.sale'
     _description = 'Sale Service'
+    
     def getUid(self, kw):
         uid = kw.get('uid')
         if uid:
@@ -12,6 +14,18 @@ class SaleService(models.Model):
         else:
             uid = 1
         return uid
+    
+    @api.model
+    def get_pdf(self, sale_id):
+        sale = request.env['new.sale'].sudo().browse(sale_id)
+        if not sale:
+            raise Exception("Sale not found")
+
+        report = request.env.ref('manajemen_toko_api.action_report_sale')
+        pdf_content, _ = report.sudo()._render_qweb_pdf([sale_id])
+        
+        return pdf_content
+    
     @api.model
     def get_all(self, kw):
         authorization_header = self.getUid(kw)
@@ -79,13 +93,19 @@ class SaleService(models.Model):
                 'id': sale.id,
                 'date': sale.date,
                 'total': sale.total,
+                'user': {
+                    'name': sale.user_id.name,
+                    'address': sale.user_id.address,
+                    'email': sale.user_id.email,
+                    'phone': sale.user_id.phone,
+                    },
                 'line_ids': [
                     {
-                        'product_id': line.product_id.id, 
+                        'id': line.product_id.id, 
                         'name': line.product_id.name, 
                         'price': line.product_id.price, 
-                        'qty': line.qty, 
-                        'total': line.total,
+                        'quantity': line.qty, 
+                        'subtotal': line.total,
                         'image': line.product_id.image.decode('ascii') if line.product_id.image else False
                     } for line in sale.line_ids
                 ],
