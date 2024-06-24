@@ -146,13 +146,7 @@ class AuthService(models.Model):
             if kw.get('image_1920'):
                 values_to_update['image_1920'] = base64.b64encode(kw['image_1920'].read())
 
-            # 2. Use with Statement for Database Transactions
-            with self.env.cr.savepoint():
-                # 3. Check for Active Recordset
-                user.write(values_to_update)
-
-            # 4. Check for Transaction Commit
-            self.env.cr.commit()
+            user.write(values_to_update)
         except Exception as e:
             raise  exceptions.AccessError(message=e)
 

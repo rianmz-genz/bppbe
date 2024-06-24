@@ -2,6 +2,7 @@ from odoo import api, models
 from odoo import http, _, exceptions
 from odoo.exceptions import UserError
 from odoo.http import request
+from datetime import datetime
 import json
 class SaleService(models.Model):
     _name = 'service.sale'
@@ -14,6 +15,15 @@ class SaleService(models.Model):
         else:
             uid = 1
         return uid
+    
+    def convert_date_format(self, date_str):
+        # Parse the input date string
+        date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+        
+        # Convert to the desired format
+        new_date_str = date_obj.strftime("%d/%m")
+        
+        return new_date_str
     
     @api.model
     def get_pdf(self, sale_id):
@@ -39,7 +49,7 @@ class SaleService(models.Model):
         for sale in sales:
             sale_data.append({
                 'id': sale.id,
-                'date': sale.date,
+                'date': self.convert_date_format(sale.date),
                 'total': sale.total,
                 'line_ids': [
                     {
@@ -79,7 +89,7 @@ class SaleService(models.Model):
                 sale_data[date_key] = {'date': date_key, 'total': total}
 
         # Convert hasil ke dalam list array
-        result_data = [{'date': item['date'], 'total': item['total']} for item in sale_data.values()]
+        result_data = [{'date': self.convert_date_format(item['date']), 'total': item['total']} for item in sale_data.values()]
         return result_data
 
 

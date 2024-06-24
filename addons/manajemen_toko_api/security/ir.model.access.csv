@@ -3,3 +3,4 @@ access_new_payment,new.payment,model_new_payment,base.group_user,1,1,1,1
 access_new_sale,new.sale,model_new_sale,base.group_user,1,1,1,1
 access_new_saleline,new.saleline,model_new_saleline,base.group_user,1,1,1,1
 access_new_product,new.product,model_new_product,base.group_user,1,1,1,1
+access_res_users,res.users,model_res_users,base.group_user,1,1,1,1
