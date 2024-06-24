@@ -131,22 +131,20 @@ class AuthService(models.Model):
         try:
 
             # Prepare the values to be updated
-            values_to_update = {}
             if kw.get('password'):
-                values_to_update['password'] = kw['password']
+                user.password = kw['password']
             if kw.get('name'):
-                values_to_update['name'] = kw['name']
+                user.name = kw['name']
             if kw.get('email'):
-                values_to_update['login'] = kw['email']
-                values_to_update['email'] = kw['email']
+                user.login = kw['email']
+                user.email = kw['email']
             if kw.get('phone'):
-                values_to_update['phone'] = kw['phone']
+                user.phone = kw['phone']
             if kw.get('address'):
-                values_to_update['address'] = kw['address']
+                user.address = kw['address']
             if kw.get('image_1920'):
-                values_to_update['image_1920'] = base64.b64encode(kw['image_1920'].read())
+                user.image_1920 = base64.b64encode(kw['image_1920'].read())
 
-            user.write(values_to_update)
         except Exception as e:
             raise  exceptions.AccessError(message=e)
 
